@@ -1,8 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import { HitCounter } from './hitcounter';
 
 export class CdkServerlessApp extends cdk.Stack {
-    constructor(scope: cdk.App, id: string, props?: cdk.StackProps){
+    constructor(scope: Construct, id: string, props?: cdk.StackProps){
         super(scope, id, props);
 
         const lambda = new cdk.aws_lambda.Function(this, 'Function', {

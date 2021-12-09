@@ -1,15 +1,14 @@
-import { aws_codecommit, pipelines, Stack, StackProps } from 'aws-cdk-lib';
+import { pipelines, Stack, StackProps } from 'aws-cdk-lib';
 import { Repository } from 'aws-cdk-lib/aws-codecommit';
-import { CodePipeline } from 'aws-cdk-lib/aws-events-targets';
 import { CodeBuildStep, CodePipelineSource } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
-
+import {Cdkv2PipelineStage} from './cdkv2-pipelinestage'; 
 
 export class Cdkv2PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const gitrepo = Repository.fromRepositoryName(this, 'cdkv2pipeline', 'cdk2pipeline');
+    const gitrepo = Repository.fromRepositoryName(this, 'cdkv2pipeline', 'master');
     
     const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK2Pipeline',
@@ -25,6 +24,9 @@ export class Cdkv2PipelineStack extends Stack {
         ]
       })
     });
-    
+
+    const deploy = new Cdkv2PipelineStage(this, 'Deploy');
+    pipeline.addStage(deploy);
+
   }
 }
