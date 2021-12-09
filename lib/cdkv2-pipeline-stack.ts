@@ -1,16 +1,30 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { aws_codecommit, pipelines, Stack, StackProps } from 'aws-cdk-lib';
+import { Repository } from 'aws-cdk-lib/aws-codecommit';
+import { CodePipeline } from 'aws-cdk-lib/aws-events-targets';
+import { CodeBuildStep, CodePipelineSource } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
 
 export class Cdkv2PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'Cdkv2PipelineQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const gitrepo = Repository.fromRepositoryName(this, 'cdkv2pipeline', 'cdk2pipeline');
+    
+    const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
+      pipelineName: 'CDK2Pipeline',
+      synth: new CodeBuildStep('SynthStep', {
+        input: CodePipelineSource.codeCommit(gitrepo, 'master'),
+        installCommands: [
+          'npm install -g aws-cdk'
+        ],
+        commands: [
+          'npm ci',
+          'npm run build',
+          'npx cdk synth'
+        ]
+      })
+    });
+    
   }
 }
