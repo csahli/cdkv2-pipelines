@@ -8,7 +8,7 @@ export class Cdkv2PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const gitrepo = Repository.fromRepositoryName(this, 'cdkv2pipeline', 'master');
+    const gitrepo = Repository.fromRepositoryName(this, 'cdkv2pipeline', 'cdkv2pipeline');
     
     const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK2Pipeline',
