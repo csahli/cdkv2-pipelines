@@ -1,9 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
+import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HitCounter } from './hitcounter';
 
 export class CdkServerlessApp extends cdk.Stack {
-    public readonly apiURL: string
+    public readonly url: CfnOutput
     constructor(scope: Construct, id: string, props?: cdk.StackProps){
         super(scope, id, props);
 
@@ -21,7 +22,9 @@ export class CdkServerlessApp extends cdk.Stack {
              handler: lambdaWithHitCounter.lambda
         });
         
-        this.apiURL = api.url;
+        this.url = new cdk.CfnOutput(this, "URL", {
+          value: api.url,
+          exportName: "URL"
+        })
     }
-
 }

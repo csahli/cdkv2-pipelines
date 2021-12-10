@@ -13,15 +13,12 @@ const pipelineStack = new Cdkv2PipelineStack(app, 'Pipeline', {env: devEnv});
 
 
 const devStage = new Cdkv2PipelineStage(app, 'DeployDev', {env: devEnv});
-pipelineStack.pipeline.addStage(devStage);
+pipelineStack.pipeline.addStage(devStage, 
+    { post: [ 
+            new ManualApprovalStep('Check DevEnv'),
+        ]
+    });
 
 
 const stgStage = new Cdkv2PipelineStage(app, 'DeployStaging', {env: stgEnv});
-pipelineStack.pipeline.addStage(stgStage);
-
-pipelineStack.pipeline.addStage(stgStage, 
-    {
-        pre: [ new ManualApprovalStep('PromoteStaging', {
-            comment: `URL: ${stgStage.app.apiURL}`
-        }),]
-    }); 
+pipelineStack.pipeline.addStage(stgStage); 

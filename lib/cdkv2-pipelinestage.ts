@@ -4,7 +4,6 @@ import { CdkServerlessApp } from './cdk-serverless-app';
 
 
 export class Cdkv2PipelineStage extends Stage {
-  public readonly app: CdkServerlessApp
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
 
