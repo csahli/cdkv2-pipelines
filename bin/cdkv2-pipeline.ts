@@ -15,7 +15,7 @@ const pipelineStack = new Cdkv2PipelineStack(app, 'Pipeline', {env: devEnv});
 const devStage = new Cdkv2PipelineStage(app, 'DeployDev', {env: devEnv});
 pipelineStack.pipeline.addStage(devStage, 
     { post: [ 
-            new ManualApprovalStep('Check DevEnv'),
+            new ManualApprovalStep('Check & Validate DevEnv'),
         ]
     });
 
