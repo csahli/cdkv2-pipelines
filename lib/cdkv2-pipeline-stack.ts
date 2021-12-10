@@ -13,6 +13,7 @@ export class Cdkv2PipelineStack extends Stack {
     
     this.pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK2Pipeline',
+      crossAccountKeys: true,
       selfMutation: true,
       synth: new CodeBuildStep('SynthStep', {
         input: CodePipelineSource.codeCommit(gitrepo, 'master'),

@@ -14,6 +14,6 @@ const pipelineStack = new Cdkv2PipelineStack(app, 'Pipeline', {env: devEnv});
 const devStage = new Cdkv2PipelineStage(app, 'DeployDev', {env: devEnv}) 
 pipelineStack.pipeline.addStage(devStage);
 
-// const stgStage = new Cdkv2PipelineStage(app, 'DeployStaging', {env: stgEnv}) 
-// pipelineStack.pipeline.addStage(stgStage);
+const stgStage = new Cdkv2PipelineStage(app, 'DeployStaging', {env: stgEnv}) 
+pipelineStack.pipeline.addStage(stgStage);
 
