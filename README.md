@@ -34,13 +34,25 @@
         })
     });
 
-```   
+  ```   
 
 ## Additional info
 
+### Provide context variable to Cdk App
+
+  ```bash
+
+      $ cdk deploy \
+          -c CICD_ENV_ACCOUNT_ID=${CICD-ENV-AccountID} \
+          -c CICD_ENV_REGION=${CICD-ENV-Region} \
+          -c STAGING_ENV_ACCOUNT_ID=${STG-ENV-AccountID} \
+          -c STAGING_ENV_REGION=${STG-ENV-Region}
+
+  ```
+
 - The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-### Useful commands
+### Other Useful commands
 
  * `npm run build`   compile typescript to js
  * `npm run watch`   watch for changes and compile
