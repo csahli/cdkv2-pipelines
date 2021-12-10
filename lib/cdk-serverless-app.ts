@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import { HitCounter } from './hitcounter';
 
 export class CdkServerlessApp extends cdk.Stack {
+    public readonly apiURL: string
     constructor(scope: Construct, id: string, props?: cdk.StackProps){
         super(scope, id, props);
 
@@ -16,11 +17,11 @@ export class CdkServerlessApp extends cdk.Stack {
             downstream: lambda
         });
 
-        new cdk.aws_apigateway.LambdaRestApi(this, 'API', {
+        const api = new cdk.aws_apigateway.LambdaRestApi(this, 'API', {
              handler: lambdaWithHitCounter.lambda
         });
-
-
+        
+        this.apiURL = api.url;
     }
 
 }
