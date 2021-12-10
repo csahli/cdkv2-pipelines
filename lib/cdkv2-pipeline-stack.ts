@@ -5,12 +5,13 @@ import { Construct } from 'constructs';
 import {Cdkv2PipelineStage} from './cdkv2-pipelinestage'; 
 
 export class Cdkv2PipelineStack extends Stack {
+  public readonly pipeline: pipelines.CodePipeline
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const gitrepo = Repository.fromRepositoryName(this, 'Repository', 'cdk2pipeline');
     
-    const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
+    this.pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK2Pipeline',
       selfMutation: true,
       synth: new CodeBuildStep('SynthStep', {
@@ -26,16 +27,7 @@ export class Cdkv2PipelineStack extends Stack {
       })
     });
 
-    const deploy = new Cdkv2PipelineStage(this, 'Deploy');
-    pipeline.addStage(deploy);
-
-    const deploystg = new Cdkv2PipelineStage(this, 'DeployStaging', {
-      env: {
-        account: '810641005430',
-        region: 'us-east-1'
-      }
-    });
-    pipeline.addStage(deploystg);
+    
 
   }
 }

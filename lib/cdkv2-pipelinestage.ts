@@ -7,7 +7,7 @@ export class Cdkv2PipelineStage extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
 
-    const app = new CdkServerlessApp(this, 'App')
+    const app = new CdkServerlessApp(this, 'App');
 
     }
   }

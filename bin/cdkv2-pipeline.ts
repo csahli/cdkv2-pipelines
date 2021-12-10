@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { CdkServerlessApp } from '../lib/cdk-serverless-app';
 import { Cdkv2PipelineStack } from '../lib/cdkv2-pipeline-stack';
+import { Cdkv2PipelineStage } from '../lib/cdkv2-pipelinestage';
 
+const devEnv =  { account: '910537616703', region: 'us-east-1' }
+const stgEnv =  { account: '810641005430', region: 'us-east-1' }
 
 const app = new cdk.App();
-new Cdkv2PipelineStack(app, 'Pipeline');
+const pipelineStack = new Cdkv2PipelineStack(app, 'Pipeline', {env: devEnv});
 
-//new CdkServerlessApp(app, 'ServerlessApp');
+
+const devStage = new Cdkv2PipelineStage(app, 'DeployDev', {env: devEnv}) 
+pipelineStack.pipeline.addStage(devStage);
+
+// const stgStage = new Cdkv2PipelineStage(app, 'DeployStaging', {env: stgEnv}) 
+// pipelineStack.pipeline.addStage(stgStage);
+
